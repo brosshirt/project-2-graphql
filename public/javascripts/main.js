@@ -73,26 +73,26 @@ document.getElementById("reads")
 document.getElementById("searches")
 .addEventListener("click",function(e){
     console.log("search")
-    fetch('http://localhost:3000/users?search=hoop').then(response => response.json()).then(data => console.log(data))
+    fetch('http://localhost:3000/users?search=basketball').then(response => response.json()).then(data => console.log(data))
 },false);
 
 //button event for read
 document.getElementById("read")
 .addEventListener("click",function(e){
     console.log("read")
-    fetch('http://localhost:3000/users/cat_N_Bootz').then(response => response.json()).then(data => console.log(data));
+    fetch('http://localhost:3000/users/Ben%20Ten').then(response => response.json()).then(data => console.log(data));
 },false);
 
 //button event for update
 document.getElementById("update")
 .addEventListener("click",function(e){
     console.log("update")
-    fetch('http://localhost:3000/users/Nick Rosshirt', {
+    fetch('http://localhost:3000/users/Ben%20Ten', {
         method: "PUT",
         body: JSON.stringify({
-            username:"Ben Rosshirt",   
-            name:"Hoe",    
-            bio:"I'm a damn hoe"}),
+            username:"Rim Roids",   
+            name:"Rimbo",    
+            bio:"I'm a damn Romboid"}),
         headers: {
             "Content-type": "application/json; charset=UTF-8"
         }
@@ -103,7 +103,7 @@ document.getElementById("update")
 document.getElementById("destroy")
 .addEventListener("click",function(e){
     console.log("destroy")
-    fetch('http://localhost:3000/users/Jim Rosshirt', { method: 'DELETE' })
+    fetch('http://localhost:3000/users/Ben Ten', { method: 'DELETE' })
 },false);
 
 };
