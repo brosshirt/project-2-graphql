@@ -90,7 +90,7 @@ document.getElementById("update")
     fetch('http://localhost:3000/users/Ben%20Ten', {
         method: "PUT",
         body: JSON.stringify({
-            username:"Rim Roids",   
+            username:"Nick Rosshirt",   
             name:"Rimbo",    
             bio:"I'm a damn Romboid"}),
         headers: {

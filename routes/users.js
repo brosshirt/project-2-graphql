@@ -25,9 +25,11 @@ router.post('/', function(req, res, next) {
   user = req.body;
   if (Object.keys(user).length !== 3 || !user.bio || !user.name || !user.username){ // make sure the schema fits
     res.status(404).send();
+    return;
   }
   else if (userExists(user)){ // No duplicate usernames
     res.status(404).send();
+    return;
   } 
   else{
     users.push(user);
@@ -43,41 +45,47 @@ router.get('/:username', function(req, res, next){
   }
   else{
     res.status(404).send();
+    return;
   }
 });
 
 router.put('/:username', function(req, res, next){
 
+  // So I need to edit this function because apparently the put function is supposed to take in any of the 3 fields and make an edit
+
   // first things first, make sure the request body makes sense
   editedUser = req.body;
-  if (Object.keys(editedUser).length !== 3 || !editedUser.bio || !editedUser.name || !editedUser.username){
-    res.status(404).send();
-  }
   
   user = getUser(req.params.username);
   if (user){ // user exists, update the user
-    if (editedUser.username !== user.username && userExists(editedUser)){ 
+    if (editedUser.username !== user.username && getUser(editedUser.username)){ 
       // if you try to change the username to 'ben' and 'ben' already exists we're going to have a problem
-      res.status(404).send();  
+      console.log("This should run")
+      res.status(404).send(); 
+      return; 
     }
     // update all the fields of the original user
-    user.username = editedUser.username;
-    user.name = editedUser.name;
-    user.bio = editedUser.bio;
+    if (editedUser.username){
+      user.username = editedUser.username;
+    }
+    if (editedUser.name){
+      user.name = editedUser.name;
+    }
+    if (editedUser.bio){
+      user.bio = editedUser.bio;
+    }
   }
   else{ // user doesn't exist, create the user
-    // NOTE: My program allows the username in the URL to mismatch with the URL in the object, it simply creates a user with the username from the object; users/fjlskdf;lafjsadlkjf is the same as users/Timmy as long as Timmy does not exist. 
-    if (userExists(editedUser)){
-      // if you try to create a user with a username that already exists we're going to have a problem
+    if (Object.keys(editedUser).length !== 3 || !editedUser.bio || !editedUser.name || !editedUser.username){ // make sure the schema fits
       res.status(404).send();
-    }
-    else{ // create the user
-      users.push(editedUser);
+      return;
+    } 
+    else{
+      users.push(user);
     }
   }
   console.log("UPDATED USERS");
   console.log(users);
-
 });
 
 router.delete('/:username', function(req, res, next){
