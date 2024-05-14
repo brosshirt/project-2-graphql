@@ -22,6 +22,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
+  console.log('post /users')
   user = req.body;
   if (Object.keys(user).length !== 3 || !user.bio || !user.name || !user.username){ // make sure the schema fits
     res.status(404).send();
@@ -39,7 +40,13 @@ router.post('/', function(req, res, next) {
 });
 
 router.get('/:username', function(req, res, next){
+  console.log("READ USERNAME")
+  
   user = getUser(req.params.username);
+
+  
+  console.log(user)
+  
   if (user){ // if the user is defined, meaning that it exists
     res.send(user)
   }
@@ -50,10 +57,7 @@ router.get('/:username', function(req, res, next){
 });
 
 router.put('/:username', function(req, res, next){
-
-  // So I need to edit this function because apparently the put function is supposed to take in any of the 3 fields and make an edit
-
-  // first things first, make sure the request body makes sense
+  
   editedUser = req.body;
   
   user = getUser(req.params.username);
