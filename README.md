@@ -1,6 +1,6 @@
 # GraphQL Tutorial
 
-### Task: Recreate the Rest API that I made for a project in college (see OldProjectSpecification.md) into a single GraphQL endpoint. 
+### Task: Recreate the Rest API that I made for a project in college into a single GraphQL endpoint. (see OldProjectSpecification.md)
 
 1. Create a basic apollo server and add it as middleware for the app at /graphql
 2. Convert your REST routes into typedefs and resolvers
