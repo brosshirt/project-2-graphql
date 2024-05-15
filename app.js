@@ -1,4 +1,3 @@
-const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -6,6 +5,9 @@ const logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/users');
+
+
+
 
 var app = express();
 
@@ -22,7 +24,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Fix CORS problem
-
 app.use(function(req,res, next){
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -33,28 +34,20 @@ app.use(function(req,res, next){
 app.use('/', indexRouter);
 app.use('/users', userRouter);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+
+// Create Apollo and Express servers
+const createApolloServer = require('./schema');
+const server = createApolloServer();
+console.log('server', server)
+server.start().then(() => {
+  server.applyMiddleware({ app, path: '/graphql' });
+
+  // Start Express server after applying middleware
+  app.listen(app.get('port'), () => {
+    console.log('App is running at http://localhost:%d in %s mode', app.get('port'), app.get('env'));
+    console.log('Press CTRL-C to stop\n');
+  });
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
-/**
- * Start Express server.
- */
-app.listen(app.get('port'), () => {
-  console.log('App is running at http://localhost:%d in %s mode', app.get('port'), app.get('env')); 
-  console.log('  Press CTRL-C to stop\n');
-});
 
 module.exports = app;

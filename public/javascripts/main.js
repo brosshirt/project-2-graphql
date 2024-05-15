@@ -23,7 +23,8 @@ document.getElementById("create")
 },false);
 
 
-//button event for read
+
+// button event for read
 document.getElementById("read")
 .addEventListener("click",function(e){
     console.log("read")
@@ -46,11 +47,15 @@ document.getElementById("update").addEventListener("click",function(e){
     }) 
 },false);
 
+
 //button event for destroy
 document.getElementById("destroy")
 .addEventListener("click",function(e){
     console.log("destroy")
     fetch('http://localhost:3000/users/Nick%20Rosshirt', { method: 'DELETE' })
 },false);
+
+
+
 
 };
